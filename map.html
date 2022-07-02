@@ -23,13 +23,10 @@
 
 	<script>
 
-		var map = L.map('map').setView([30.733315, 76.779419], 11);
+		var map = L.map('map').setView([32.166667, 75.316667], 11);
 		mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
-
-
-		
-		var greenIcon = new L.Icon({
+        var greenIcon = new L.Icon({
   		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
   		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   		iconSize: [25, 41],
@@ -40,32 +37,32 @@
 
 
 
-		var marker = L.marker([30.733315, 76.779419], {icon: greenIcon}).addTo(map);
-
-		map.on('click', function (e) {
-			console.log(e)
-			var MyMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
 			L.Routing.control({
 				waypoints: [
-                
-					L.latLng(30.733315, 76.779419),
-                    L.latLng(32.264339, 75.642113),
-                    L.latLng(31.633980, 74.872261),
-                    
-					L.latLng(e.latlng.lat, e.latlng.lng)
-				]
-			}).on('routesfound', function (e) {
-				var routes = e.routes;
-				console.log(routes);
-
-				e.routes[0].coordinates.forEach(function (coord, index) {
-					setTimeout(function () {
-						marker.setLatLng([coord.lat, coord.lng]);
-					}, 100 * index)
-				})
+					L.latLng(32.166667, 75.316667),
+					L.latLng(31.6343083, 74.8736788)
+				],
+                lineOptions: {
+                	styles: [{color: 'black', opacity: 1, weight: 5}]
+                }
 
 			}).addTo(map);
-		});
+            L.Routing.control({
+				waypoints: [
+                    L.latLng(31.6875406,75.4784376),
+					L.latLng(31.8193025,75.1999941),
+					L.latLng(32.0317917, 75.0284641)
+				],
+                lineOptions: {
+                	styles: [{color: 'blue', opacity: 1, weight: 5}]
+                },
+                createMarker : function(i,wp,nWps) {
+                    return L.marker(wp.latLng, {icon: greenIcon});
+                }
+
+			}).addTo(map);
+
+
 
 
 	</script>
