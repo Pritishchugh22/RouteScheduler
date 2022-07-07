@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Geolocation</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="map" style="width:80%; height: 80vh"></div>
+	<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+
+	<script>
+
+		var map = L.map('map').setView([0,0], 11);
+		mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
+        var blackIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var greenIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var yellowIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var blueIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var redIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var violetIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var goldIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var orangeIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+        var greyIcon = new L.Icon({
+  		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+  		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  		iconSize: [25, 41],
+  		iconAnchor: [12, 41],
+  		popupAnchor: [1, -34],
+  		shadowSize: [41, 41]
+		});
+       
+        
+
+        
+		
+// -------------- Running loop on the array of routes --------------//	
+		const routes = [[[32.166667, 75.316667],[31.6343083, 74.8736788]],[[31.6875406,75.4784376],[31.8193025,75.1999941],[32.0317917, 75.0284641],]];
+		let len = routes.length;
+		let color = ['black','green','yellow','blue','red','gold','violet','grey','orange']
+        let iconColor = [greyIcon, orangeIcon, blackIcon, greenIcon, yellowIcon, blueIcon, redIcon, goldIcon, violetIcon]
+		for (var i = 0; i < len; i++){		// for each route
+			const list = [];
+			for( var j=0;j<routes[i].length;j++){
+				list.push(L.latLng(routes[i][j][0], routes[i][j][1]))
+			}
+			L.Routing.control({
+				waypoints: list,
+                lineOptions: {
+                	styles: [{color: color[i], opacity: 1, weight: 5}]
+                },
+				createMarker : function(i,wp,nWps) {
+                    return L.marker(wp.latLng, {icon: iconColor[j]});
+                }
+
+			}).addTo(map);
+
+		}
+/*
+			L.Routing.control({
+				waypoints: [
+					L.latLng(routes[0][0], routes[0][1]),
+					L.latLng(routes[1][0], routes[1][1])
+				],
+                lineOptions: {
+                	styles: [{color: 'black', opacity: 1, weight: 5}]
+                }
+
+			}).addTo(map);
+            L.Routing.control({
+				waypoints: [
+                    L.latLng(31.6875406,75.4784376),
+					L.latLng(31.8193025,75.1999941),
+					L.latLng(32.0317917, 75.0284641)
+				],
+                lineOptions: {
+                	styles: [{color: 'blue', opacity: 1, weight: 5}]
+                },
+                createMarker : function(i,wp,nWps) {
+                    return L.marker(wp.latLng, {icon: greenIcon});
+                }
+
+			}).addTo(map);
+*/
+
+
+
+
+	</script>
+
+
+</body>
+
+</html>
