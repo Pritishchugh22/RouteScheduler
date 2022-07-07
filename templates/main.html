@@ -20,21 +20,28 @@
             const loc3 = document.getElementById("loc3").value;
             const loc4 = document.getElementById("loc4").value;
     
-    
+            var result;
             const dict_values = {loc1, loc2, loc3,loc4} //Pass the javascript variables to a dictionary.
             const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
             console.log(s); // Prints the variables to console window, which are in the JSON format
-            window.alert(s)
+//            window.alert(s)
             $.ajax({
                 url:"/test",
                 type:"POST",
                 contentType: "application/json",
+                async: false,
                 data: JSON.stringify(s),
                 success: function(response){
-                    console.log(response);
-//                    console.lop("thats it");
+                    result = response;
+                    console.log(result);
+                    
                 },
             });
+            console.log(result);
+            for( var i=0;i<result.length;i++){
+                console.log(result[i]);
+            }
+            
     
     }
     

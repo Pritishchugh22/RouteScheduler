@@ -19,6 +19,13 @@ from google.oauth2 import service_account
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 
+import pandas as pd 
+import numpy as np
+
+from geopy.exc import GeocoderTimedOut
+from geopy.geocoders import Nominatim
+    
+
 app = Flask(__name__)
 cors = CORS(app)
 
@@ -351,7 +358,71 @@ def test():
         route = distance(location)
     print(route)
 
-    route =jsonify(route)
-    return route
+    # converting locations into lat long ---------------------------------------------------------------------------------------
+
+    data = {'City':location} 
+    
+    #  Convert the dictionary into DataFrame 
+    df = pd.DataFrame(data) 
+
+    longitude = []
+    latitude = []
+
+    # function to find the coordinate
+    # of a given city
+    def findGeocode(city):
+
+        # try and catch is used to overcome
+        # the exception thrown by geolocator
+        # using geocodertimedout
+        try:
+
+            # Specify the user_agent as your
+            # app name it should not be none
+            geolocator = Nominatim(user_agent="your_app_name")
+
+            return geolocator.geocode(city)
+
+        except GeocoderTimedOut:
+
+            return findGeocode(city)	
+
+    # each value from city column
+    # will be fetched and sent to
+    # function find_geocode
+    for i in (df["City"]):
+
+        if findGeocode(i) != None:
+
+            loc = findGeocode(i)
+
+            # coordinates returned from
+            # function is stored into
+            # two separate list
+            latitude.append(loc.latitude)
+            longitude.append(loc.longitude)
+
+        # if coordinate for a city not
+        # found, insert "NaN" indicating
+        # missing value
+        else:
+            latitude.append(np.nan)
+            longitude.append(np.nan)
+
+    lat_long=[]
+    for i in route:
+        l =[]
+        for j in i:
+            temp = []
+            temp.append(latitude[j])
+            temp.append(longitude[j])
+            l.append(temp)
+        lat_long.append(l)
+    print(lat_long)
+
+# ---------------------------------------------------------------------------------------------------------------
+
+    lat_long =jsonify(lat_long)
+    return lat_long
 #    return render_template('map.html')    
 
