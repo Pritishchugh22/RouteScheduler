@@ -1,47 +1,208 @@
-<html lang="en">
-<head>
-    <title>
-        RouteScheduler            
-    </title>
-</head>
+<!doctype html>
+<title>RouteScheduler</title>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Add Remove Dynamic HTML Fields using JQuery Plugin in PHP</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+        <style>
+            .button {
+              border: none;
+              color: white;
+              padding: 10px 20px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 20px;
+              margin: 4px 2px;
+              transition-duration: 0.4s;
+              cursor: pointer;
+            }
+        
+            .button1 {
+              background-color: white;
+              color: black;
+              border: 2px solid #008CBA;
+              border-radius: 12px;
+              font-size : 15px;
+            }
+        
+            .button1:hover {
+              background-color: #008CBA;
+              color: white;
+              transform: scale(1.2);
+            }
+            .button2:hover {
+              background-color: #008CBA;
+              color: white;
+              transform: scale(1.1);
+            }
+            </style>
+            <title>Geolocation</title>
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+            <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+            </style>
+    </head>
 <body>
-    <h1>Enter The Details of the Visits </h1>
-    <label for ="loc1">LOCATION 1:</label><input type="text" id="loc1" name="loc1">
-    <label for ="loc2">LOCATION 2:</label><input type="text" id="loc2" name="loc2">
-    <label for ="loc3">LOCATION 3:</label><input type="text" id="loc3" name="loc3">
-    <label for ="loc4">LOCATION 4:</label><input type="text" id="loc4" name="loc4">
-    <button type="submit" onclick='myfunction();'>Schedule It </button>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <div class="container">
+        <br />
+        <h3 align="center">Location Inputs</h3>
+        <br />
+        <div style="width:100%; max-width: 600px; margin:0 auto;">
+            <div class="panel panel-default">
+                <div class="panel-heading">Input the locations to visit</div>
+                <div class="panel-body">
+                    <span id="success_result"></span>
+                    <form method="post" id="repeater_form">
+                        <div id="checkList">
+                            <div class="form-group">
+                            <h2>Please mention the locations to visit</h2>
+                        </div>
+                            <div id="repeater">
+                            <div class="repeater-heading" align="center">
+                                <button type="button" class="btn btn-primary repeater-add-btn button2 ">Add location</button>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="items" data-group="locations">
+                                <div class="item-content">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <label>Location Name</label><br>
+                                                <input type="text" name="name" id="name" class="form-control" />
+                                            </div>  
+                                            <div class="col-md-3" style="margin-top:24px;" align="center">
+                                                <button id="remove-btn" onclick="$(this).parents('.items').remove()" class="btn btn-danger button2">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                        <div class="form-group" align="center">
+                            <br /><br />
+                            <button id="saveData" class="btn btn-primary button1" >Schedule It </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        function myfunction() {
+    $(document).ready(function(){
+
+        $('#repeater').createRepeater();
+
+        $('#repeater_form').on('submit', function(event){
+            event.preventDefault();
+        });
+
+    });
+        
+    </script>
+    <script>jQuery.fn.extend({
+        createRepeater: function () {
+            var addItem = function (items, key) {
+                var itemContent = items;
+                var group = itemContent.data("group");
+                var item = itemContent;
+                var input = item.find('input,select');
+                input.each(function (index, el) {
+                    var attrName = $(el).data('name');
+                    var skipName = $(el).data('skip-name');
+                    if (skipName != true) {
+                        $(el).attr("name", group + "[" + key + "]" + attrName);
+                    } else {
+                        if (attrName != 'undefined') {
+                            $(el).attr("name", attrName);
+                        }
+                    }
+                })
+                var itemClone = items;
     
-            const loc1 = document.getElementById("loc1").value;
-            const loc2 = document.getElementById("loc2").value;
-            const loc3 = document.getElementById("loc3").value;
-            const loc4 = document.getElementById("loc4").value;
+                /* Handling remove btn */
+                var removeButton = itemClone.find('.remove-btn');
     
-            var result;
-            const dict_values = {loc1, loc2, loc3,loc4} //Pass the javascript variables to a dictionary.
-            const s = JSON.stringify(dict_values); // Stringify converts a JavaScript object or value to a JSON string
+                if (key == 0) {
+                    removeButton.attr('disabled', true);
+                } else {
+                    removeButton.attr('disabled', false);
+                }
+    
+                $("<div class='items'>" + itemClone.html() + "<div/>").appendTo(repeater);
+            };
+            /* find elements */
+            var repeater = this;
+            var items = repeater.find(".items");
+            var key = 0;
+            var addButton = repeater.find('.repeater-add-btn');
+            var newItem = items;
+    
+            if (key == 0) {
+                items.remove();
+                addItem(newItem, key);
+            }
+    
+            /* handle click and add items */
+            addButton.on("click", function () {
+                key++;
+                addItem(newItem, key);
+            });
+        }
+    });</script>
+    <pre id=""Arr"></pre>
+    <script>
+        $("#saveData").click(function (e) {
+                var resultArray = [];
+                $('#checkList').find('div.col-md-9').each(function() {
+                    var rowData = {};
+                    
+                    rowData['input'] = $(this).find('input[type=text]').val();
+                    resultArray.push(rowData);
+                });
+                console.log(resultArray);
+                const s = JSON.stringify(resultArray); // Stringify converts a JavaScript object or value to a JSON string
             console.log(s); // Prints the variables to console window, which are in the JSON format
             window.alert(s)
             $.ajax({
                 url:"/test",
                 type:"POST",
                 contentType: "application/json",
-                async: false,
                 data: JSON.stringify(s),
                 success: function(response){
-                    result = response;
-                    console.log(response[0]);
-                    
+                    console.log(response);
+//                    console.lop("thats it");
                 },
             });
-            
-            
     
     }
-    
+            );
+
+
     </script>
-</body>
+    <h2 align="center"> MAP </h2>
+    <div id="map" style="border: 1px solid black; margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; height: 120vh; width:80%;"></div>
+	<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+    
+	<script>
+		var map = L.map('map').setView([32.166667, 75.316667], 11);
+		mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
+    </script>
+        </body>
 </html>
