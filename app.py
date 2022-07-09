@@ -37,8 +37,15 @@ def index():
 def test():
     output = request.get_json()
     result = json.loads(output) #this converts the json output to a python dictionary
-    location = list(result.values()) # Printing the new dictionary
+    print(result)
+
+    print("\n\n\n\n\n")
+    #location = list(result.values()) # Printing the new dictionary
+    location=[]
+    for i in result:
+        location.append(i["input"])
     print(location)#this shows the json converted as a python dictionary
+    print("\n\n\n\n\n")
 
     SERVICE_ACCOUNT_FILE = 'keys.json'
     credentials = None
