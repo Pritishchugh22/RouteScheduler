@@ -190,8 +190,7 @@ def test():
         def time_solution(location):
             """Solve the VRP with time windows."""
             #hard coding the locations of the appointment
-            location = ["sector 70 Mohali","sector 80 Mohali", "sector 72 Mohali","sector 75 Mohali","sector 40 Mohali"]
-
+            
             # Instantiate the data problem.
             data = create_data_model(location)
 
