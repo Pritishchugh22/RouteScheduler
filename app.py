@@ -171,7 +171,7 @@ def test():
                     plan_output += '{0} Time({1},{2}) -> '.format(
                         manager.IndexToNode(index), solution.Min(time_var),
                         solution.Max(time_var))
-                    arr.append(manager.IndexToNode(index))
+#                    arr.append(manager.IndexToNode(index))
                     index = solution.Value(routing.NextVar(index))
                 time_var = time_dimension.CumulVar(index)
                 plan_output += '{0} Time({1},{2})\n'.format(manager.IndexToNode(index),
@@ -294,7 +294,7 @@ def test():
                     route_distance += routing.GetArcCostForVehicle(
                         previous_index, index, vehicle_id)
                 plan_output += '{}\n'.format(manager.IndexToNode(index))
-                arr.append(manager.IndexToNode(index))
+#                arr.append(manager.IndexToNode(index))
                 route.append(arr)
                 plan_output += 'Distance of the route: {}m\n'.format(route_distance)
                 print(plan_output)
