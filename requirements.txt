@@ -1,2 +1,6 @@
-python==
-Flask==
+Python == 3.10.5
+Flask == 2.1.2
+Angular == 14.0.4
+Install: googleapiclient
+Pandas
+Numpy
