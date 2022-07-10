@@ -53,29 +53,38 @@
             </style>
     </head>
 <body>
-    <div class="container">
+    <div class="container" style="width:60%">
         <br />
-        <h3 align="center">Location Inputs</h3>
+        <h2 align="center">MAP</h2>
         <br />
-        <div style="width:100%; max-width: 600px; margin:0 auto;">
             <div class="panel panel-default">
                 
-                <div id="map" style="width:80%; height: 80vh"></div>
+                <div id="map" style="width:100%; height:80vh;"></div>
                 <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
                 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+                <script>var map = L.map('map').setView([28.704060,77.102493], 11);
+                    mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
+                    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
+                </script>
                  
-                <div class="panel-heading">Input the locations to visit</div>
-                <div class="panel-body">
+                <div class="panel-heading" > </div>
+                <div class="panel-body" >
                     <span id="success_result"></span>
                     <form method="post" id="repeater_form">
                         <div id="checkList">
                             <div class="form-group">
-                            <h2>Please mention the locations to visit</h2>
+                            <h2 align="center">ROUTE SCHEDULER</h2>
+                        </div>
+                        <div class="vehicle-input">
+                            <label align="left">No. of vehicles</label>
+                            <input type="text" name="name" id="name" size="30" align="left" required />
                         </div>
                             <div id="repeater">
                             <div class="repeater-heading" align="center">
-                                <button type="button" class="btn btn-primary repeater-add-btn button2 ">Add location</button>
+                                <button style="margin-top:30px" type="button" class="btn btn-primary repeater-add-btn button2 ">Add location</button>
                             </div>
+                            
+                            
                             <div class="clearfix"></div>
                             <div class="items" data-group="locations">
                                 <div class="item-content">
@@ -85,7 +94,7 @@
                                                 <label>Location Name</label><br>
                                                 <input type="text" name="name" id="name" class="form-control" />
                                             </div>  
-                                            <div class="col-md-3" style="margin-top:24px;" align="center">
+                                            <div class="col-md-3" style="margin-top:24px;" align="center" position="absolute">
                                                 <button id="remove-btn" onclick="$(this).parents('.items').remove()" class="btn btn-danger button2">Remove</button>
                                             </div>
                                         </div>
@@ -95,7 +104,7 @@
                         </div>
                         </div>
                         
-                        <div class="clearfix"></div>
+                        <div class="clearfix" align="center"></div>
                         <div class="form-group" align="center">
                             <br /><br />
                             <button id="saveData" class="btn btn-primary button1" >Schedule It </button>
@@ -172,12 +181,18 @@
     <script>
         $("#saveData").click(function (e) {
             var resultArray = [];
-            $('#checkList').find('div.col-md-9').each(function() {
+            $('#checkList').find('div.vehicle-input').each(function() {
                 var rowData = {};
-                    
                 rowData['input'] = $(this).find('input[type=text]').val();
                 resultArray.push(rowData);
             });
+            $('#checkList').find('div.col-md-9').each(function() {
+                var rowData = {};
+                rowData['input'] = $(this).find('input[type=text]').val();
+                resultArray.push(rowData);
+            });
+            
+
             console.log(resultArray);
             
             var result;
@@ -205,9 +220,7 @@
             console.log(routes);
             
 
-            var map = L.map('map').setView([0,0], 11);
-		mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
+            
         var blackIcon = new L.Icon({
   		iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
   		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -307,7 +320,7 @@
 
 			}).addTo(map);
 
-		}    
+		}
     
     }
 );
