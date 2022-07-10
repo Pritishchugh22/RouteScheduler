@@ -44,8 +44,9 @@ def test():
     location=[]
     for i in result:
         location.append(i["input"])
-    no_of_vechicles = location[0]
+    no_of_vechicles = int(location[0])
     print(no_of_vechicles)
+    print(type(no_of_vechicles))
     location = location[1:]
     print(location)#this shows the json converted as a python dictionary
     print("\n\n\n\n\n")
