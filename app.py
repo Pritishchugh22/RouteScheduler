@@ -44,6 +44,9 @@ def test():
     location=[]
     for i in result:
         location.append(i["input"])
+    no_of_vechicles = location[0]
+    print(no_of_vechicles)
+    location = location[1:]
     print(location)#this shows the json converted as a python dictionary
     print("\n\n\n\n\n")
 
@@ -151,7 +154,7 @@ def test():
                 (7, 20),  # 1
                 (10, 17),  # 2
             ]
-            data['num_vehicles'] = 2
+            data['num_vehicles'] = no_of_vechicles
             data['depot'] = 0
             return data
 
@@ -270,7 +273,7 @@ def test():
             """Stores the data for the problem."""
             data = {}
             data['distance_matrix'] = distance_matrix(location)
-            data['num_vehicles'] = 2
+            data['num_vehicles'] = no_of_vechicles
             data['depot'] = 0
             return data
 
