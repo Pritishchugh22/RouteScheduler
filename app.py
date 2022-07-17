@@ -363,9 +363,9 @@ def test():
         
     
 #    location = ["sector 70 Mohali","sector 80 Mohali", "sector 72 Mohali","sector 75 Mohali","sector 40 Mohali"]
-    route = time(location)
-    if route ==0:
-        route = distance(location)
+    #route = time(location)
+    #if route ==0:
+    route = distance(location)
     print(route)
 
     # converting locations into lat long ---------------------------------------------------------------------------------------
