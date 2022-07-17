@@ -39,7 +39,7 @@ def test():
     result = json.loads(output) #this converts the json output to a python dictionary
     print(result)
 
-    print("\n\n\n\n\n")
+#    print("\n\n\n\n\n")
     #location = list(result.values()) # Printing the new dictionary
     location=[]
     for i in result:
@@ -49,7 +49,7 @@ def test():
     print(type(no_of_vechicles))
     location = location[1:]
     print(location)#this shows the json converted as a python dictionary
-    print("\n\n\n\n\n")
+#    print("\n\n\n\n\n")
 
     SERVICE_ACCOUNT_FILE = 'keys.json'
     credentials = None
