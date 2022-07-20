@@ -8,6 +8,8 @@ The user can add total number of vehicles available. Also, they can add as many 
 Important:
 We have added a feature for adding locations that might come up while the rider is on for the appointments.  The route will dynamically get changed to add that new location to be visited along the way. 
 
+For demo, visit: https://routescheduler.herokuapp.com/
+
 
 1. Run cd sms - to move into the directory
 2. Install virtualenv using command - pip install virtualenv
