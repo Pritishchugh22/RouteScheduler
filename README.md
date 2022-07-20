@@ -1,4 +1,4 @@
-#Route Scheduler
+# Route Scheduler
 We have built an appointment scheduling and routing solution that helps in reducing manual, time-taking processes. It takes total number of vehicles available as well as all the locations that need to be covered and provides the best routes that will take least time to cover all the location.
 The time as well as distance between every two locations is calculated using google APIs which are then processed on the server as a REST API.
 All the routes, that are calculated using time and distance between locations, are displayed with different colors on Map using google maps and leaflet library.
