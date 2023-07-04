@@ -23,7 +23,7 @@ Visit: https://routescheduler.herokuapp.com/
 2. Run `cd sms` - to move into the directory 
 3. Install virtualenv using command - `pip install virtualenv`
 3. Now activate the virtual environment using command - `py -m venv env`
-4. Now activate the virtual env using command - `.\env\Scripts\activate` . This will activate the virtual environment. For linux and Mac try - `source env/bin/activate`
+4. Now activate the virtual env using command - `source env/bin/activate` . This will activate the virtual environment. 
 5. Install flask - `python -m pip install flask`.
 6. Install all requirements by - `pip install -r requirements.txt`.
 7. Now to migrate the models run - `python manage.py migrate`.
